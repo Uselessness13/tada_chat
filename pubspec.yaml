@@ -13,7 +13,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_bloc: ^7.0.0
   web_socket_channel: ^2.1.0
-
+  tada_api:
+    path: tada_api
+  tada_models:
+    path: tada_models
 dev_dependencies:
   flutter_test:
     sdk: flutter
