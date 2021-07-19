@@ -8,7 +8,7 @@ class TadaApiHelper {
   Future<List<ServerMessage>> getRoomHistory(String roomName) =>
       GetRoomHistoryProvider().execute(roomName);
 
-  Future<List<Message>> getRoomList() => GetRoomListProvider().execute();
+  Future<List<Room>> getRoomList() => GetRoomListProvider().execute();
 
   Future<ServerSettings> getServerSettings() =>
       GetServerSettingsProvider().execute();

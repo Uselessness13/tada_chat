@@ -29,13 +29,10 @@ class RestHelper {
 
   _initDio() {
     BaseOptions options = BaseOptions(
-        baseUrl: Constants.BASE_URL,
-        connectTimeout: 15000,
-        receiveTimeout: 15000,
-        validateStatus: (status) {
-          if (status! >= 200 && status < 300 || status == 304) return true;
-          return false;
-        });
+      baseUrl: Constants.BASE_URL,
+      connectTimeout: 15000,
+      receiveTimeout: 15000,
+    );
     _dio = Dio();
     _dio.options = options;
 
