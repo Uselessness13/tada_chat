@@ -1,6 +1,6 @@
 name: tada_chat
-description: Test task for tada.team 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+description: Test task for tada.team
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 version: 1.0.0+1
 
@@ -11,12 +11,16 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
+  intl: ^0.17.0
   flutter_bloc: ^7.0.0
   web_socket_channel: ^2.1.0
   tada_api:
     path: tada_api
   tada_models:
     path: tada_models
+  tada_local_storage:
+    path: tada_local_storage
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

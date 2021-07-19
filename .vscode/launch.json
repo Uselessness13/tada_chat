@@ -1,0 +1,45 @@
+{
+	// Use IntelliSense to learn about possible attributes.
+	// Hover to view descriptions of existing attributes.
+	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "tada_chat",
+			"request": "launch",
+			"type": "dart"
+		},
+		{
+			"name": "tada_chat (profile mode)",
+			"request": "launch",
+			"type": "dart",
+			"flutterMode": "profile"
+		},
+		{
+			"name": "tada_api",
+			"cwd": "tada_api",
+			"request": "launch",
+			"type": "dart"
+		},
+		{
+			"name": "tada_api (profile mode)",
+			"cwd": "tada_api",
+			"request": "launch",
+			"type": "dart",
+			"flutterMode": "profile"
+		},
+		{
+			"name": "tada_models",
+			"cwd": "tada_models",
+			"request": "launch",
+			"type": "dart"
+		},
+		{
+			"name": "tada_models (profile mode)",
+			"cwd": "tada_models",
+			"request": "launch",
+			"type": "dart",
+			"flutterMode": "profile"
+		}
+	]
+}
