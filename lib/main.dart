@@ -1,21 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:tada_chat/main_bloc_provider.dart';
+import 'package:tada_api/tada_api.dart';
+import 'package:tada_chat/app.dart';
+import 'package:tada_chat/ui/chat/chat_screen.dart';
 import 'package:tada_local_storage/local_storage_helper.dart';
+
+import 'cubit/auth/auth_cubit.dart';
+import 'cubit/cubit/chat_cubit.dart';
+import 'cubit/rooms/rooms_cubit.dart';
 
 void main() async {
   await Hive.initFlutter();
   TadaLocalStorageHelper helper = TadaLocalStorageHelper();
   await helper.init();
-  runApp(MaterialApp(
-    title: 'TADA CHAT',
-    theme: ThemeData(
-      primarySwatch: Colors.blue,
-    ),
-    home: RepositoryProvider(
-      create: (context) => helper,
-      child: MainBlocProvider(),
-    ),
-  ));
+  runApp(MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(
+          create: (context) => helper,
+        ),
+        RepositoryProvider(
+          create: (context) => TadaApiHelper(),
+        ),
+      ],
+      child: MultiBlocProvider(
+          providers: [
+            BlocProvider<AuthCubit>(
+                create: (context) => AuthCubit(
+                    RepositoryProvider.of<TadaLocalStorageHelper>(context))
+                  ..checkAuth()),
+            BlocProvider<RoomsCubit>(
+                create: (context) =>
+                    RoomsCubit(RepositoryProvider.of<TadaApiHelper>(context))
+                      ..loadRooms()),
+            BlocProvider<ChatCubit>(
+                create: (context) =>
+                    ChatCubit(RepositoryProvider.of<TadaApiHelper>(context))),
+          ],
+          child: MaterialApp(
+            title: 'TADA CHAT',
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
+            routes: {
+              App.routeName: (context) => App(),
+              ChatScreen.routeName: (context) => ChatScreen(),
+            },
+            home: App(),
+          ))));
 }

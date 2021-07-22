@@ -6,6 +6,7 @@ import 'package:tada_chat/ui/room_list/room_list.dart';
 import 'cubit/auth/auth_cubit.dart';
 
 class App extends StatelessWidget {
+  static const String routeName = 'app';
   const App({Key? key}) : super(key: key);
 
   @override

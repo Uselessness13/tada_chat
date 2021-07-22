@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tada_chat/cubit/cubit/chat_cubit.dart';
+import 'package:tada_chat/ui/chat/chat_screen.dart';
 import 'package:tada_models/tada_models.dart';
 
 class RoomListItem extends StatelessWidget {
@@ -10,6 +12,10 @@ class RoomListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: () {
+        context.read<ChatCubit>().loadRoom(room);
+        Navigator.of(context).pushNamed(ChatScreen.routeName, arguments: room.name);
+      },
       leading: CircleAvatar(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
