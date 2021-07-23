@@ -2,8 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:tada_api/api_exception.dart';
 import 'package:tada_api/constants.dart';
 import 'package:tada_api/rest_helper.dart';
-import 'package:tada_models/tada_models.dart';
-
+import 'package:tada_local_storage/models/room.dart';
 import 'api_provider.dart';
 
 class GetRoomListProvider implements ApiProvider<void, List<Room>> {

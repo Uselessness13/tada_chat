@@ -1,28 +1,36 @@
 import 'dart:convert';
 
+import 'package:hive/hive.dart';
 import 'sender.dart';
 
-class ServerMessage {
-  ServerMessage({
+part 'message.g.dart';
+
+@HiveType(typeId: 2)
+class Message {
+  Message({
     required this.id,
     required this.room,
     required this.created,
     required this.sender,
     required this.text,
   });
-
+  @HiveField(0)
   final String? id;
+  @HiveField(1)
   final String? room;
+  @HiveField(2)
   final DateTime? created;
+  @HiveField(3)
   final Sender? sender;
+  @HiveField(4)
   final String? text;
 
-  factory ServerMessage.fromRawJson(String str) =>
-      ServerMessage.fromJson(json.decode(str));
+  factory Message.fromRawJson(String str) =>
+      Message.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory ServerMessage.fromJson(Map<String, dynamic> json) => ServerMessage(
+  factory Message.fromJson(Map<String, dynamic> json) => Message(
         id: json["id"] == null ? null : json["id"],
         room: json["room"] == null ? null : json["room"],
         created:

@@ -4,6 +4,7 @@ import 'package:tada_chat/ui/auth/auth_screen.dart';
 import 'package:tada_chat/ui/room_list/room_list.dart';
 
 import 'cubit/auth/auth_cubit.dart';
+import 'cubit/socket/socket_cubit.dart';
 
 class App extends StatelessWidget {
   static const String routeName = 'app';
@@ -31,9 +32,10 @@ class App extends StatelessWidget {
       body: SafeArea(
         child: BlocBuilder<AuthCubit, AuthState>(
           builder: (context, state) {
-            if (state is Authenthicated)
+            if (state is Authenthicated) {
+              context.read<SocketCubit>().initSocket(state.username);
               return RoomList();
-            else if (state is Unauthenthicated) return AuthScreen();
+            } else if (state is Unauthenthicated) return AuthScreen();
             return Center(
               child: CircularProgressIndicator(),
             );

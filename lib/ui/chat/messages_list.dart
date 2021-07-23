@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tada_chat/cubit/auth/auth_cubit.dart';
 import 'package:tada_chat/cubit/cubit/chat_cubit.dart';
-import 'package:tada_models/tada_models.dart';
+import 'package:tada_local_storage/models/message.dart';
 
 import 'message_container.dart';
 
@@ -38,9 +38,11 @@ class _MessagesListState extends State<MessagesList> {
               shrinkWrap: true,
               padding: EdgeInsets.only(top: 10, bottom: 10),
               itemBuilder: (context, index) {
+                final Message message = messages[index];
                 return MessageContainer(
-                    message: messages[index],
-                    myMessage: messages[index].sender!.username == username);
+                  message: message,
+                  myMessage: message.sender!.username == username,
+                );
               },
             );
           }

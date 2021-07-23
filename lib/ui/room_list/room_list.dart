@@ -32,10 +32,16 @@ class RoomList extends StatelessWidget {
             ),
           );
         else if (state is RoomsLoaded)
-          return ListView.builder(
-              itemCount: state.rooms.length,
-              itemBuilder: (BuildContext context, int index) =>
-                  RoomListItem(room: state.rooms[index]));
+          return RefreshIndicator(
+            onRefresh: () async {
+              context.read<RoomsCubit>().loadRooms();
+            },
+            child: ListView.builder(
+                itemCount: state.rooms.length,
+                physics: AlwaysScrollableScrollPhysics(),
+                itemBuilder: (BuildContext context, int index) =>
+                    RoomListItem(room: state.rooms[index])),
+          );
         return Container();
       },
     );

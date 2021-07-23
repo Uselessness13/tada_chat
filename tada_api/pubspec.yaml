@@ -12,8 +12,8 @@ dependencies:
     sdk: flutter
   dio: ^4.0.0
   equatable: ^2.0.3
-  tada_models:
-    path: ../tada_models
+  tada_local_storage:
+    path: ../tada_local_storage
 
 dev_dependencies:
   flutter_test:

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tada_chat/cubit/cubit/chat_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'message_input.dart';
 import 'messages_list.dart';
 
@@ -64,7 +66,9 @@ class _ChatScreenState extends State<ChatScreen> {
         children: [
           MessagesList(),
           MessageInput(
-            onSendButtonPressed: (text) {},
+            onSendButtonPressed: (text) {
+              context.read<ChatCubit>().sendMessage(chatName, text);
+            },
           ),
         ],
       ),

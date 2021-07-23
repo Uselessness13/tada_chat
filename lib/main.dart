@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:tada_api/tada_api.dart';
 import 'package:tada_chat/app.dart';
+import 'package:tada_chat/cubit/socket/socket_cubit.dart';
 import 'package:tada_chat/ui/chat/chat_screen.dart';
 import 'package:tada_local_storage/local_storage_helper.dart';
 
@@ -27,12 +28,14 @@ void main() async {
           providers: [
             BlocProvider<AuthCubit>(
                 create: (context) => AuthCubit(
-                    RepositoryProvider.of<TadaLocalStorageHelper>(context))
-                  ..checkAuth()),
+                      RepositoryProvider.of<TadaLocalStorageHelper>(context),
+                    )..checkAuth()),
+            BlocProvider<SocketCubit>(create: (context) => SocketCubit()),
             BlocProvider<RoomsCubit>(
-                create: (context) =>
-                    RoomsCubit(RepositoryProvider.of<TadaApiHelper>(context))
-                      ..loadRooms()),
+                create: (context) => RoomsCubit(
+                      RepositoryProvider.of<TadaApiHelper>(context),
+                      RepositoryProvider.of<TadaLocalStorageHelper>(context),
+                    )..loadRooms()),
             BlocProvider<ChatCubit>(
                 create: (context) =>
                     ChatCubit(RepositoryProvider.of<TadaApiHelper>(context))),

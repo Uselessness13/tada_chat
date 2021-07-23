@@ -282,13 +282,6 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
-  tada_models:
-    dependency: "direct main"
-    description:
-      path: tada_models
-      relative: true
-    source: path
-    version: "0.0.1"
   term_glyph:
     dependency: transitive
     description:

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:tada_models/tada_models.dart';
+import 'package:tada_local_storage/models/message.dart';
 
 class MessageContainer extends StatelessWidget {
-  final ServerMessage message;
+  final Message message;
   final bool myMessage;
 
   MessageContainer({Key? key, required this.message, required this.myMessage})
@@ -33,14 +33,21 @@ class MessageContainer extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               color: (myMessage ? Colors.lightGreen : Colors.blueGrey),
             ),
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment:
                   myMessage ? CrossAxisAlignment.end : CrossAxisAlignment.start,
               children: [
                 Text(
-                  message.text ?? '',
-                  style: TextStyle(fontSize: 15),
+                  message.sender!.username,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    message.text ?? '',
+                    style: TextStyle(fontSize: 15),
+                  ),
                 ),
                 Text(dateString),
               ],
