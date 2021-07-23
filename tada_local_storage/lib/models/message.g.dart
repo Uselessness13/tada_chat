@@ -6,7 +6,7 @@ part of 'message.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class ServerMessageAdapter extends TypeAdapter<Message> {
+class MessageAdapter extends TypeAdapter<Message> {
   @override
   final int typeId = 2;
 
@@ -18,10 +18,10 @@ class ServerMessageAdapter extends TypeAdapter<Message> {
     };
     return Message(
       id: fields[0] as String?,
-      room: fields[1] as String?,
-      created: fields[2] as DateTime?,
-      sender: fields[3] as Sender?,
-      text: fields[4] as String?,
+      room: fields[1] as String,
+      created: fields[2] as DateTime,
+      sender: fields[3] as Sender,
+      text: fields[4] as String,
     );
   }
 
@@ -47,7 +47,7 @@ class ServerMessageAdapter extends TypeAdapter<Message> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ServerMessageAdapter &&
+      other is MessageAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

@@ -11,7 +11,7 @@ class MessageContainer extends StatelessWidget {
   final DateTime now = DateTime.now();
   @override
   Widget build(BuildContext context) {
-    DateTime messageCreated = message.created ?? DateTime.now();
+    DateTime messageCreated = message.created;
     String dateString =
         DateFormat(DateFormat.HOUR24_MINUTE).format(messageCreated);
     if (messageCreated.day != now.day)
@@ -39,13 +39,13 @@ class MessageContainer extends StatelessWidget {
                   myMessage ? CrossAxisAlignment.end : CrossAxisAlignment.start,
               children: [
                 Text(
-                  message.sender!.username,
+                  message.sender.username,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
-                    message.text ?? '',
+                    message.text,
                     style: TextStyle(fontSize: 15),
                   ),
                 ),

@@ -16,7 +16,7 @@ class RoomListItem extends StatelessWidget {
       elevation: 5,
       child: ListTile(
         onTap: () {
-          context.read<ChatCubit>().loadRoom(room,
+          context.read<ChatCubit>().loadRoom(room.name,
               (context.read<AuthCubit>().state as Authenthicated).username);
           Navigator.of(context)
               .pushNamed(ChatScreen.routeName, arguments: room.name);
@@ -39,19 +39,19 @@ class RoomListItem extends StatelessWidget {
         title: Text(room.name),
         subtitle: Row(children: [
           Text(
-            '${room.message.sender?.username ?? ''}: ',
+            '${room.message.sender.username}: ',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           Expanded(
             child: Text(
-              room.message.text ?? '',
+              room.message.text,
               style: TextStyle(fontWeight: FontWeight.normal),
               overflow: TextOverflow.ellipsis,
             ),
           ),
           Text(
             DateFormat(DateFormat.HOUR24_MINUTE)
-                .format(room.message.created ?? DateTime.now()),
+                .format(room.message.created),
             style: TextStyle(
                 fontStyle: FontStyle.italic, fontWeight: FontWeight.normal),
           )

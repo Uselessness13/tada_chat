@@ -10,7 +10,7 @@ class TadaLocalStorageHelper {
 
   init() async {
     Hive.registerAdapter<Room>(RoomAdapter());
-    Hive.registerAdapter<Message>(ServerMessageAdapter());
+    Hive.registerAdapter<Message>(MessageAdapter());
     Hive.registerAdapter<Sender>(SenderAdapter());
     await Hive.openBox<Room>(Constants.ROOMS);
     await Hive.openBox<Message>(Constants.MESSAGES);

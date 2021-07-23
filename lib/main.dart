@@ -30,15 +30,20 @@ void main() async {
                 create: (context) => AuthCubit(
                       RepositoryProvider.of<TadaLocalStorageHelper>(context),
                     )..checkAuth()),
-            BlocProvider<SocketCubit>(create: (context) => SocketCubit()),
+            BlocProvider<SocketCubit>(
+                create: (context) => SocketCubit(
+                      RepositoryProvider.of<TadaLocalStorageHelper>(context),
+                    )),
             BlocProvider<RoomsCubit>(
                 create: (context) => RoomsCubit(
                       RepositoryProvider.of<TadaApiHelper>(context),
                       RepositoryProvider.of<TadaLocalStorageHelper>(context),
                     )..loadRooms()),
             BlocProvider<ChatCubit>(
-                create: (context) =>
-                    ChatCubit(RepositoryProvider.of<TadaApiHelper>(context))),
+                create: (context) => ChatCubit(
+                      RepositoryProvider.of<TadaApiHelper>(context),
+                      RepositoryProvider.of<TadaLocalStorageHelper>(context),
+                    )),
           ],
           child: MaterialApp(
             title: 'TADA CHAT',

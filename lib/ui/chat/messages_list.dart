@@ -41,7 +41,7 @@ class _MessagesListState extends State<MessagesList> {
                 final Message message = messages[index];
                 return MessageContainer(
                   message: message,
-                  myMessage: message.sender!.username == username,
+                  myMessage: message.sender.username == username,
                 );
               },
             );

@@ -2,13 +2,15 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:tada_local_storage/local_storage_helper.dart';
 import 'package:tada_local_storage/models/message.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 part 'socket_state.dart';
 
 class SocketCubit extends Cubit<SocketState> {
-  SocketCubit() : super(SocketInitial());
+  final TadaLocalStorageHelper _localStorageHelper;
+  SocketCubit(this._localStorageHelper) : super(SocketInitial());
   late WebSocketChannel channel;
 
   initSocket(String username) async {
@@ -21,6 +23,7 @@ class SocketCubit extends Cubit<SocketState> {
   }
 
   newMessageRecieved(Message message) {
+    _localStorageHelper.messagesBox.add(message);
     emit(NewMessageRecieved(message));
   }
 

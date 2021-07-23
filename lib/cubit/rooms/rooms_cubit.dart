@@ -16,8 +16,7 @@ class RoomsCubit extends Cubit<RoomsState> {
     emit(RoomsLoading());
     try {
       final rooms = await _tadaApiHelper.getRoomList();
-      rooms.sort((room1, room2) => room2.message.created!
-          .compareTo(room1.message.created ?? DateTime.now()));
+      rooms.sort((room1, room2) => room2.message.created.compareTo(room1.message.created));
       _localStorageHelper.roomsBox.clear();
       _localStorageHelper.roomsBox.addAll(rooms);
       emit(RoomsLoaded(rooms));
