@@ -14,7 +14,7 @@ class ChatCubit extends Cubit<ChatState> {
     try {
       final messages = await _tadaApiHelper.getRoomHistory(room.name);
       messages.sort(
-          (m1, m2) => m1.created!.compareTo(m2.created ?? DateTime.now()));
+          (m1, m2) => m2.created!.compareTo(m1.created ?? DateTime.now()));
       emit(ChatLoaded(messages));
     } on TadaApiException catch (e) {
       emit(ChatError(e.message));
