@@ -5,8 +5,4 @@ abstract class SocketState {}
 
 class SocketInitial extends SocketState {}
 
-class NewMessageRecieved extends SocketState {
-  final Message message;
-
-  NewMessageRecieved(this.message);
-}
+class SocketInitialised extends SocketState {}

@@ -48,7 +48,15 @@ void main() async {
           child: MaterialApp(
             title: 'TADA CHAT',
             theme: ThemeData(
-              primarySwatch: Colors.blue,
+              primaryColor: Colors.white,
+              accentColor: Colors.blue,
+              appBarTheme: AppBarTheme(
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.black,
+              ),
+              iconTheme: IconThemeData(
+                color: Colors.black
+              )
             ),
             routes: {
               App.routeName: (context) => App(),

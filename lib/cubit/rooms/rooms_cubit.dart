@@ -10,13 +10,21 @@ class RoomsCubit extends Cubit<RoomsState> {
   final TadaApiHelper _tadaApiHelper;
   final TadaLocalStorageHelper _localStorageHelper;
   RoomsCubit(this._tadaApiHelper, this._localStorageHelper)
-      : super(RoomsInitial());
+      : super(RoomsInitial()) {
+    _localStorageHelper.messagesBox.watch().listen((event) {
+      if (state is RoomsLoaded) {
+        updateRoom(Room(message: event.value, name: event.value.room));
+      }
+    });
+  }
 
   loadRooms() async {
     emit(RoomsLoading());
     try {
+      emit(RoomsLoaded(_localStorageHelper.roomsBox.values.toList()));
       final rooms = await _tadaApiHelper.getRoomList();
-      rooms.sort((room1, room2) => room2.message.created.compareTo(room1.message.created));
+      rooms.sort((room1, room2) =>
+          room2.message.created.compareTo(room1.message.created));
       _localStorageHelper.roomsBox.clear();
       _localStorageHelper.roomsBox.addAll(rooms);
       emit(RoomsLoaded(rooms));
@@ -25,5 +33,15 @@ class RoomsCubit extends Cubit<RoomsState> {
     } on Exception catch (e) {
       emit(RoomsError(e.toString()));
     }
+  }
+
+  updateRoom(Room room) {
+    RoomsLoaded lastState = state as RoomsLoaded;
+    List<Room> rooms = lastState.rooms;
+    rooms.removeWhere((el) => el.name == room.name);
+    rooms.add(room);
+    rooms.sort((room1, room2) =>
+        room2.message.created.compareTo(room1.message.created));
+    emit(RoomsLoaded(rooms));
   }
 }

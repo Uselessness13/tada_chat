@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tada_chat/cubit/cubit/chat_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tada_chat/cubit/socket/socket_cubit.dart';
 import 'message_input.dart';

@@ -35,15 +35,16 @@ class MessageInput extends StatelessWidget {
               onPressed: () {
                 if (controller.text.trim().isNotEmpty) {
                   onSendButtonPressed(controller.text.trim());
+                  controller.text = '';
                 }
               },
               child: Icon(
                 Icons.send,
-                color: Colors.white,
+                color: Colors.black,
                 size: 18,
               ),
-              backgroundColor: Colors.blue,
-              elevation: 0,
+              backgroundColor: Colors.white,
+              elevation: 1,
             ),
           ],
         ),

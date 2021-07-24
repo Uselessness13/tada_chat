@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tada_chat/cubit/cubit/chat_cubit.dart';
-import 'package:tada_chat/cubit/rooms/rooms_cubit.dart';
 import 'package:tada_chat/ui/auth/auth_screen.dart';
 import 'package:tada_chat/ui/room_list/room_list.dart';
 
@@ -16,7 +14,11 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("TADA CHAT"),
+        elevation: 0,
+        title: Text(
+          "TADA CHAT",
+          style: TextStyle(color: Colors.black),
+        ),
         actions: [
           BlocBuilder<AuthCubit, AuthState>(
             builder: (context, state) {
@@ -24,8 +26,12 @@ class App extends StatelessWidget {
                 return IconButton(
                     onPressed: () {
                       context.read<AuthCubit>().unAuthUser();
+                      context.read<SocketCubit>().closeSink();
                     },
-                    icon: Icon(Icons.exit_to_app));
+                    icon: Icon(
+                      Icons.exit_to_app,
+                      // color: Colors.black,
+                    ));
               return Container();
             },
           ),
@@ -36,28 +42,21 @@ class App extends StatelessWidget {
           builder: (context, authState) {
             if (authState is Authenthicated) {
               context.read<SocketCubit>().initSocket(authState.username);
-              return BlocListener<SocketCubit, SocketState>(
-                listener: (context, state) {
-                  if (state is NewMessageRecieved) {
-                    context.read<RoomsCubit>().loadRooms();
-                    ChatState chatState = context.read<ChatCubit>().state;
-                    if (chatState is ChatLoaded) {
-                      if (chatState.messages[0].room == state.message.room) {
-                        context
-                            .read<ChatCubit>()
-                            .loadRoom(state.message.room, authState.username)();
-                      }
-                    }
-                  }
-                },
-                child: RoomList(),
-              );
+              return RoomList();
             } else if (authState is Unauthenthicated) return AuthScreen();
             return Center(
               child: CircularProgressIndicator(),
             );
           },
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(
+          Icons.add,
+          color: Colors.black,
+        ),
+        backgroundColor: Colors.white,
       ),
     );
   }
