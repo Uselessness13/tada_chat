@@ -5,12 +5,12 @@ part 'room.g.dart';
 
 @HiveType(typeId: 1)
 class Room {
-  Room({required this.name, required this.message});
+  Room({required this.name, this.message});
   @HiveField(0)
   String name;
 
   @HiveField(1)
-  Message message;
+  Message? message;
 
   factory Room.fromJson(Map<String, dynamic> json) => Room(
         name: json["name"] == null ? null : json["name"],
@@ -19,6 +19,6 @@ class Room {
 
   Map<String, dynamic> toJson() => {
         "name": name,
-        "last_message": message.toJson(),
+        "last_message": message?.toJson(),
       };
 }

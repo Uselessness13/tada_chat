@@ -7,3 +7,5 @@ class TadaApiException implements Exception {
     return "Exception: $message";
   }
 }
+
+class TadaApiNotFoundException extends TadaApiException {}

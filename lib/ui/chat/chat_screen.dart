@@ -35,7 +35,6 @@ class _ChatScreenState extends State<ChatScreen> {
                   },
                   icon: Icon(
                     Icons.arrow_back,
-                    color: Colors.white,
                   ),
                 ),
                 SizedBox(
@@ -52,9 +51,9 @@ class _ChatScreenState extends State<ChatScreen> {
                   child: Text(
                     chatName,
                     style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ],
@@ -62,15 +61,17 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          MessagesList(),
-          MessageInput(
-            onSendButtonPressed: (text) {
-              context.read<SocketCubit>().sendMessage(chatName, text);
-            },
-          ),
-        ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            MessagesList(),
+            MessageInput(
+              onSendButtonPressed: (text) {
+                context.read<SocketCubit>().sendMessage(chatName, text);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

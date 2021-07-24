@@ -31,7 +31,7 @@ class MessageContainer extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: (myMessage ? Colors.lightGreen : Colors.blueGrey),
+              color: (myMessage ? Colors.grey[200] : Colors.blueGrey[100]),
             ),
             padding: const EdgeInsets.all(16.0),
             child: Column(

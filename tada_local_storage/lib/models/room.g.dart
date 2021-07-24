@@ -18,7 +18,7 @@ class RoomAdapter extends TypeAdapter<Room> {
     };
     return Room(
       name: fields[0] as String,
-      message: fields[1] as Message,
+      message: fields[1] as Message?,
     );
   }
 

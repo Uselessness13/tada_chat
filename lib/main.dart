@@ -4,7 +4,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:tada_api/tada_api.dart';
 import 'package:tada_chat/app.dart';
 import 'package:tada_chat/cubit/socket/socket_cubit.dart';
+import 'package:tada_chat/ui/auth/auth_screen.dart';
 import 'package:tada_chat/ui/chat/chat_screen.dart';
+import 'package:tada_chat/ui/splash.dart';
 import 'package:tada_local_storage/local_storage_helper.dart';
 
 import 'cubit/auth/auth_cubit.dart';
@@ -29,7 +31,7 @@ void main() async {
             BlocProvider<AuthCubit>(
                 create: (context) => AuthCubit(
                       RepositoryProvider.of<TadaLocalStorageHelper>(context),
-                    )..checkAuth()),
+                    )),
             BlocProvider<SocketCubit>(
                 create: (context) => SocketCubit(
                       RepositoryProvider.of<TadaLocalStorageHelper>(context),
@@ -54,14 +56,18 @@ void main() async {
                 backgroundColor: Colors.white,
                 foregroundColor: Colors.black,
               ),
-              iconTheme: IconThemeData(
-                color: Colors.black
-              )
+              iconTheme: IconThemeData(color: Colors.black),
+              floatingActionButtonTheme: FloatingActionButtonThemeData(
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.black,
+              ),
             ),
             routes: {
-              App.routeName: (context) => App(),
-              ChatScreen.routeName: (context) => ChatScreen(),
+              App.routeName: (_) => App(),
+              ChatScreen.routeName: (_) => ChatScreen(),
+              AuthScreen.routeName: (_) => AuthScreen(),
+              SplashScreen.routeName: (_) => SplashScreen()
             },
-            home: App(),
+            home: SplashScreen(),
           ))));
 }

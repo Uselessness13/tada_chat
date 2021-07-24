@@ -31,7 +31,7 @@ class _MessagesListState extends State<MessagesList> {
         builder: (context, state) {
           if (state is ChatLoaded) {
             final List messages = state.messages;
-            return ListView.builder(
+            return messages.isEmpty ? Center(child: Text('No messages yet'),) : ListView.builder(
               reverse: true,
               keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               itemCount: messages.length,

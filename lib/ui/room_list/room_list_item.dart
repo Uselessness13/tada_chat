@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tada_chat/cubit/auth/auth_cubit.dart';
 import 'package:tada_chat/cubit/cubit/chat_cubit.dart';
 import 'package:tada_chat/ui/chat/chat_screen.dart';
 import 'package:tada_local_storage/models/room.dart';
@@ -16,8 +15,7 @@ class RoomListItem extends StatelessWidget {
       elevation: 5,
       child: ListTile(
         onTap: () {
-          context.read<ChatCubit>().loadRoom(room.name,
-              (context.read<AuthCubit>().state as Authenthicated).username);
+          context.read<ChatCubit>().loadRoom(room.name);
           Navigator.of(context)
               .pushNamed(ChatScreen.routeName, arguments: room.name);
         },
@@ -37,25 +35,28 @@ class RoomListItem extends StatelessWidget {
           ),
         ),
         title: Text(room.name),
-        subtitle: Row(children: [
-          Text(
-            '${room.message.sender.username}: ',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          Expanded(
-            child: Text(
-              room.message.text,
-              style: TextStyle(fontWeight: FontWeight.normal),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          Text(
-            DateFormat(DateFormat.HOUR24_MINUTE)
-                .format(room.message.created),
-            style: TextStyle(
-                fontStyle: FontStyle.italic, fontWeight: FontWeight.normal),
-          )
-        ]),
+        subtitle: room.message != null
+            ? Row(children: [
+                Text(
+                  '${room.message!.sender.username}: ',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Expanded(
+                  child: Text(
+                    room.message!.text,
+                    style: TextStyle(fontWeight: FontWeight.normal),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Text(
+                  DateFormat(DateFormat.HOUR24_MINUTE)
+                      .format(room.message!.created),
+                  style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.normal),
+                )
+              ])
+            : Container(),
       ),
     );
   }
