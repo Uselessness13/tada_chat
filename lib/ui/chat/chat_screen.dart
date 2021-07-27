@@ -65,6 +65,9 @@ class _ChatScreenState extends State<ChatScreen> {
         child: Column(
           children: [
             MessagesList(),
+            Divider(
+              height: 0.25,
+            ),
             MessageInput(
               onSendButtonPressed: (text) {
                 context.read<SocketCubit>().sendMessage(chatName, text);

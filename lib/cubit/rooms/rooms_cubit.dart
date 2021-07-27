@@ -19,12 +19,8 @@ class RoomsCubit extends Cubit<RoomsState> {
   }
 
   createRoom(Room room) {
-    RoomsLoaded lastState = state as RoomsLoaded;
     _localStorageHelper.roomsBox.add(room);
-    emit(RoomsLoaded([
-      room,
-      ...lastState.rooms,
-    ]));
+    _emitRooms();
   }
 
   loadRooms() async {
@@ -38,7 +34,7 @@ class RoomsCubit extends Cubit<RoomsState> {
       var newRooms = rooms.where((element) =>
           localRooms.indexWhere((el) => el.name == element.name) == -1);
       _localStorageHelper.roomsBox.addAll(newRooms);
-      emit(RoomsLoaded(_localStorageHelper.roomsBox.values.toList()));
+      _emitRooms();
     } on TadaApiException catch (e) {
       emit(RoomsError(e.message));
     } on Exception catch (e) {
@@ -47,17 +43,21 @@ class RoomsCubit extends Cubit<RoomsState> {
   }
 
   updateRoom(Room room) {
-    RoomsLoaded lastState = state as RoomsLoaded;
-    List<Room> rooms = lastState.rooms;
-    rooms.removeWhere((el) => el.name == room.name);
-    rooms.add(room);
-    rooms.sort((room1, room2) =>
-        room2.message!.created.compareTo(room1.message!.created));
-    _localStorageHelper.roomsBox.putAt(
-        _localStorageHelper.roomsBox.values
-            .toList()
-            .indexWhere((element) => element.name == room.name),
-        room);
+    final index = _localStorageHelper.roomsBox.values
+        .toList()
+        .indexWhere((element) => element.name == room.name);
+    _localStorageHelper.roomsBox.putAt(index, room);
+    _emitRooms();
+  }
+
+  _emitRooms() {
+    final rooms = _localStorageHelper.roomsBox.values.toList();
+    rooms.sort((r1, r2) => r1.message == null
+        ? 1
+        : r2.message == null
+            ? -1
+            : (r2.message?.created ?? DateTime.now())
+                .compareTo((r1.message?.created ?? DateTime.now())));
     emit(RoomsLoaded(rooms));
   }
 }

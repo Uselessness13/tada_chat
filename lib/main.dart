@@ -52,6 +52,7 @@ void main() async {
             theme: ThemeData(
               primaryColor: Colors.white,
               accentColor: Colors.blue,
+              scaffoldBackgroundColor: Colors.white,
               appBarTheme: AppBarTheme(
                 backgroundColor: Colors.white,
                 foregroundColor: Colors.black,
@@ -68,6 +69,6 @@ void main() async {
               AuthScreen.routeName: (_) => AuthScreen(),
               SplashScreen.routeName: (_) => SplashScreen()
             },
-            home: SplashScreen(),
+            initialRoute: SplashScreen.routeName,
           ))));
 }

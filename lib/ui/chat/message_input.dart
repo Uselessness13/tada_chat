@@ -10,43 +10,51 @@ class MessageInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.bottomLeft,
-      child: Container(
-        padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
-        height: 60,
-        width: double.infinity,
-        color: Colors.white,
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: TextField(
-                controller: controller,
-                decoration: InputDecoration(
+    return SafeArea(
+      child: Align(
+        alignment: Alignment.bottomLeft,
+        child: Container(
+          padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
+          width: double.infinity,
+          child: Flex(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            direction: Axis.horizontal,
+            children: <Widget>[
+              Flexible(
+                flex: 5,
+                child: TextField(
+                  controller: controller,
+                  textInputAction: TextInputAction.newline,
+                  keyboardType: TextInputType.multiline,
+                  minLines: 1,
+                  maxLines: 4,
+                  decoration: InputDecoration(
                     hintText: "Введите сообщение...",
                     hintStyle: TextStyle(color: Colors.black54),
-                    border: InputBorder.none),
+                    border: InputBorder.none,
+                  ),
+                ),
               ),
-            ),
-            SizedBox(
-              width: 15,
-            ),
-            FloatingActionButton(
-              onPressed: () {
-                if (controller.text.trim().isNotEmpty) {
-                  onSendButtonPressed(controller.text.trim());
-                  controller.text = '';
-                }
-              },
-              child: Icon(
-                Icons.send,
-                color: Colors.black,
-                size: 18,
+              Flexible(
+                flex: 1,
+                child: FloatingActionButton(
+                  onPressed: () {
+                    if (controller.text.trim().isNotEmpty) {
+                      onSendButtonPressed(controller.text.trim());
+                      controller.text = '';
+                    }
+                  },
+                  child: Icon(
+                    Icons.send,
+                    color: Colors.black,
+                    size: 18,
+                  ),
+                  backgroundColor: Colors.white,
+                  elevation: 1,
+                ),
               ),
-              backgroundColor: Colors.white,
-              elevation: 1,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

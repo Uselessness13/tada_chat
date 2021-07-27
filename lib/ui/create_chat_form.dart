@@ -53,7 +53,6 @@ class CreateNewChatForm extends StatelessWidget {
                   onPressed: () {
                     if (controller.text.isNotEmpty) {
                       onSendButtonPressed(controller.text);
-                      Navigator.of(context).pop();
                     }
                   },
                   child: Text(

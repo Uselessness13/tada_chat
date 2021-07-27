@@ -56,7 +56,7 @@ class RoomListItem extends StatelessWidget {
                       fontWeight: FontWeight.normal),
                 )
               ])
-            : Container(),
+            : Text('no messages yet'),
       ),
     );
   }

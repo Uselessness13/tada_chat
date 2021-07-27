@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tada_chat/cubit/cubit/chat_cubit.dart';
 import 'package:tada_chat/cubit/rooms/rooms_cubit.dart';
-import 'package:tada_chat/ui/auth/auth_screen.dart';
 import 'package:tada_chat/ui/chat/chat_screen.dart';
 import 'package:tada_chat/ui/room_list/room_list.dart';
 import 'package:tada_chat/ui/splash.dart';
@@ -22,7 +20,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  bool showFab = false;
+  bool showFab = true;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +39,8 @@ class _AppState extends State<App> {
                     if (value == 'Logout') {
                       context.read<AuthCubit>().unAuthUser();
                       context.read<SocketCubit>().closeSink();
-                      Navigator.of(context).pushReplacementNamed(SplashScreen.routeName);
+                      Navigator.of(context)
+                          .pushReplacementNamed(SplashScreen.routeName);
                     }
                   },
                   child: Padding(
@@ -85,6 +84,7 @@ class _AppState extends State<App> {
                             final room = Room(name: chatName);
                             context.read<RoomsCubit>().createRoom(room);
                             context.read<ChatCubit>().loadRoom(room.name);
+                            Navigator.of(context).pop();
                             Navigator.of(context).pushNamed(
                                 ChatScreen.routeName,
                                 arguments: room.name);
