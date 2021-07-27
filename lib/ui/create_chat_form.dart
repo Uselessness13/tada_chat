@@ -31,6 +31,7 @@ class CreateNewChatForm extends StatelessWidget {
               style: Theme.of(context).textTheme.headline6,
             ),
             TextField(
+              autofocus: true,
               controller: controller,
               decoration: InputDecoration(
                   hintText: "Enter chat name...",

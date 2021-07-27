@@ -36,7 +36,6 @@ class RestHelper {
     _dio = Dio();
     _dio.options = options;
 
-    _dio.interceptors.add(LogInterceptor());
     (_dio.transformer as DefaultTransformer).jsonDecodeCallback = _parseJson;
   }
 

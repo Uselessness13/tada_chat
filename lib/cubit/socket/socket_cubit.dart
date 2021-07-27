@@ -12,18 +12,28 @@ class SocketCubit extends Cubit<SocketState> {
   SocketCubit(this._localStorageHelper) : super(SocketInitial());
   late IOWebSocketChannel channel;
 
+  _reconnect(String username) {
+    emit(SocketInitial());
+    initSocket(username);
+  }
+
   initSocket(String username) async {
     if (state is SocketInitial) {
       channel = IOWebSocketChannel.connect(
         Uri.parse('wss://nane.tada.team/ws?username=$username').toString(),
       );
-      channel.stream.listen((event) {
-        print(event);
-        newMessageRecieved(Message.fromJson(json.decode(event)));
-      });
-      channel.sink.done.then((value) {
-        print(value.last);
-      });
+      channel.stream.asBroadcastStream().listen(
+            (event) {
+              print(event);
+              newMessageRecieved(Message.fromJson(json.decode(event)));
+            },
+            onDone: () => _reconnect(username),
+            onError: (error) {
+              print(error);
+              emit(SocketError(error.toString()));
+              _reconnect(username);
+            },
+          );
       emit(SocketInitialised());
     }
   }

@@ -66,7 +66,13 @@ class _AppState extends State<App> {
           ),
         ],
       ),
-      body: SafeArea(
+      body: BlocListener<SocketCubit, SocketState>(
+        listener: (context, state) {
+          if (state is SocketError) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(state.message+ "\n reconnecting...")));
+          }
+        },
         child: RoomList(),
       ),
       floatingActionButton: showFab
@@ -83,7 +89,7 @@ class _AppState extends State<App> {
                           onSendButtonPressed: (chatName) {
                             final room = Room(name: chatName);
                             context.read<RoomsCubit>().createRoom(room);
-                            context.read<ChatCubit>().loadRoom(room.name);
+                            context.read<ChatCubit>().loadRoom(room.name, true);
                             Navigator.of(context).pop();
                             Navigator.of(context).pushNamed(
                                 ChatScreen.routeName,
