@@ -15,21 +15,30 @@ class ChatCubit extends Cubit<ChatState> {
     _localStorageHelper.messagesBox.watch().listen((event) {
       if (state is ChatLoaded) {
         if ((event.value as Message).room == (state as ChatLoaded).room.name)
-          addMessage(event.value);
+          _emitMessages((event.value as Message).room);
       }
     });
+  }
+
+  List<Message> _getRoomMessages(String room) {
+    return _localStorageHelper.messagesBox.values
+        .toList()
+        .where((element) => element.room == room)
+        .toList();
+  }
+
+  _emitMessages(String room) {
+    final roomMessages = _getRoomMessages(room);
+    roomMessages.sort((r1, r2) => r2.created.compareTo(r1.created));
+    emit(ChatLoaded(roomMessages, Room(name: room)));
   }
 
   loadRoom(String room) async {
     emit(ChatLoading());
     try {
-      List<Message> roomMessages = _localStorageHelper.messagesBox.values
-          .toList()
-          .where((element) => element.room == room)
-          .toList();
-      roomMessages.sort((m1, m2) => m2.created.isAfter(m1.created) ? 1 : -1);
-      emit(ChatLoaded(roomMessages, Room(name: room)));
+      _emitMessages(room);
       final messages = await _tadaApiHelper.getRoomHistory(room);
+      final roomMessages = _getRoomMessages(room);
       var newMessages = messages.where((message) =>
           roomMessages.indexWhere((localMessage) =>
               localMessage.room == message.room &&
@@ -37,13 +46,7 @@ class ChatCubit extends Cubit<ChatState> {
               localMessage.sender.username == message.sender.username) ==
           -1);
       _localStorageHelper.messagesBox.addAll(newMessages);
-      messages.sort((m1, m2) => m2.created.isAfter(m1.created) ? 1 : -1);
-      var resMessages = _localStorageHelper.messagesBox.values
-          .toList()
-          .where((element) => element.room == room)
-          .toList();
-      resMessages.sort((m1, m2) => m2.created.compareTo(m1.created));
-      emit(ChatLoaded(resMessages, Room(name: room)));
+      _emitMessages(room);
     } on TadaApiException catch (e) {
       if (e is TadaApiNotFoundException)
         emit(ChatLoaded(List.empty(), Room(name: room)));
@@ -52,13 +55,5 @@ class ChatCubit extends Cubit<ChatState> {
     } on Exception catch (e) {
       emit(ChatError(e.toString()));
     }
-  }
-
-  addMessage(Message message) {
-    ChatLoaded lastState = state as ChatLoaded;
-    emit(ChatLoaded([
-      message,
-      ...lastState.messages,
-    ], Room(name: message.room)));
   }
 }
