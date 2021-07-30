@@ -47,15 +47,14 @@ class SocketCubit extends Cubit<SocketState> {
   }
 
   newMessageRecieved(Message message) {
-    if (messages.indexWhere((element) =>
-            element.created.isAtSameMomentAs(message.created) &&
-            element.text == message.text &&
-            element.sender.username == message.sender.username &&
-            element.room == message.room) ==
-        -1) {
-      messages.add(message);
-      _localStorageHelper.messagesBox.add(message);
-    }
+    final element = messages.last;
+    if (element.created.isAtSameMomentAs(message.created) &&
+        element.text == message.text &&
+        element.sender.username == message.sender.username &&
+        element.room == message.room) return;
+        
+    messages.add(message);
+    _localStorageHelper.messagesBox.add(message);
   }
 
   sendMessage(String room, String text) {
