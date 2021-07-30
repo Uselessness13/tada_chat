@@ -16,12 +16,11 @@ class MessageInput extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
           width: double.infinity,
-          child: Flex(
+          child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
-            direction: Axis.horizontal,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Flexible(
-                flex: 5,
+              Expanded(
                 child: TextField(
                   controller: controller,
                   textInputAction: TextInputAction.newline,
@@ -35,23 +34,20 @@ class MessageInput extends StatelessWidget {
                   ),
                 ),
               ),
-              Flexible(
-                flex: 1,
-                child: FloatingActionButton(
-                  onPressed: () {
-                    if (controller.text.trim().isNotEmpty) {
-                      onSendButtonPressed(controller.text.trim());
-                      controller.text = '';
-                    }
-                  },
-                  child: Icon(
-                    Icons.send,
-                    color: Colors.black,
-                    size: 18,
-                  ),
-                  backgroundColor: Colors.white,
-                  elevation: 1,
+              FloatingActionButton(
+                onPressed: () {
+                  if (controller.text.trim().isNotEmpty) {
+                    onSendButtonPressed(controller.text.trim());
+                    controller.text = '';
+                  }
+                },
+                child: Icon(
+                  Icons.send,
+                  color: Colors.black,
+                  size: 18,
                 ),
+                backgroundColor: Colors.white,
+                elevation: 1,
               ),
             ],
           ),

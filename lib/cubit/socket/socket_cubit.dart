@@ -1,16 +1,18 @@
 import 'dart:convert';
+import 'dart:html';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:tada_local_storage/local_storage_helper.dart';
 import 'package:tada_local_storage/models/message.dart';
 import 'package:web_socket_channel/io.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 part 'socket_state.dart';
 
 class SocketCubit extends Cubit<SocketState> {
   final TadaLocalStorageHelper _localStorageHelper;
   SocketCubit(this._localStorageHelper) : super(SocketInitial());
-  late IOWebSocketChannel channel;
+  late WebSocketChannel channel;
 
   _reconnect(String username) {
     emit(SocketInitial());
@@ -19,8 +21,8 @@ class SocketCubit extends Cubit<SocketState> {
 
   initSocket(String username) async {
     if (state is SocketInitial) {
-      channel = IOWebSocketChannel.connect(
-        Uri.parse('wss://nane.tada.team/ws?username=$username').toString(),
+      channel = WebSocketChannel.connect(
+        Uri.parse('wss://nane.tada.team/ws?username=$username'),
       );
       channel.stream.asBroadcastStream().listen(
             (event) {
@@ -47,7 +49,6 @@ class SocketCubit extends Cubit<SocketState> {
   }
 
   closeSink() {
-    channel.innerWebSocket?.close();
     channel.sink.close();
     emit(SocketInitial());
   }
